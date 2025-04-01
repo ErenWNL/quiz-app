@@ -1,13 +1,8 @@
 package com.quiz.controller;
 
 import com.quiz.dto.QuestionDto;
-import com.quiz.entity.Category;
-import com.quiz.entity.DifficultyLevel;
-import com.quiz.entity.Question;
-import com.quiz.entity.User;
-import com.quiz.service.CategoryService;
-import com.quiz.service.QuestionService;
-import com.quiz.service.UserService;
+import com.quiz.entity.*;
+import com.quiz.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -34,6 +29,13 @@ public class AdminController {
     @Autowired
     private QuestionService questionService;
 
+    @Autowired
+    private UserProgressService userProgressService;
+
+    @Autowired
+    private QuizResultService quizResultService;
+
+
     @GetMapping("")
     public String adminHome(Model model) {
         return "admin/home";
@@ -54,7 +56,16 @@ public class AdminController {
     @GetMapping("/users/{id}")
     public String viewUser(@PathVariable Long id, Model model) {
         User user = userService.findById(id);
+
+        List<UserProgress> progress = userProgressService.findByUserId(id);
+
+        List<QuizResult> results = quizResultService.findByUserId(id, null).getContent();
+
+
         model.addAttribute("user", user);
+        model.addAttribute("progress", progress);
+        model.addAttribute("results", results);
+        model.addAttribute("categories", categoryService.findAllCategories());
         return "admin/user-details";
     }
 

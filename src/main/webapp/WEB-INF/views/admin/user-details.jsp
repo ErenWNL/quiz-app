@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="jakarta.tags.core" %>
 <%@ taglib prefix="fmt" uri="jakarta.tags.fmt" %>
+<%@ taglib prefix="fn" uri="jakarta.tags.functions" %>
 
 <c:set var="pageTitle" value="User Details" scope="request" />
 <jsp:include page="../common/header.jsp" />
@@ -136,7 +137,8 @@
                                         </c:choose>
                                     </td>
                                     <td>
-                                        <fmt:formatDate value="${result.completionTime}" pattern="MMM dd, yyyy" />
+                                        <fmt:parseDate value="${result.completionTime}" pattern="yyyy-MM-dd'T'HH:mm:ss" var="parsedDate" type="both" />
+                                        <fmt:formatDate value="${parsedDate}" pattern="MMM dd, yyyy 'at' hh:mm a" />
                                     </td>
                                     <td>
                                         <a href="${pageContext.request.contextPath}/quiz/result/${result.id}" class="btn btn-sm btn-outline-primary">

@@ -94,7 +94,8 @@
                                 </c:choose>
                             </td>
                             <td>
-                                <fmt:formatDate value="${result.completionTime}" pattern="MMM dd, yyyy HH:mm" />
+                                <fmt:parseDate value="${result.completionTime}" pattern="yyyy-MM-dd'T'HH:mm:ss" var="parsedDate" type="both" />
+                                <fmt:formatDate value="${parsedDate}" pattern="MMM dd, yyyy 'at' hh:mm a" />
                             </td>
                             <td>
                                 <fmt:formatNumber value="${result.timeTakenSeconds / 60}" pattern="#" var="minutes" />
